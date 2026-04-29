@@ -11,8 +11,8 @@ void UMP_LANMenu::NativeOnInitialized()
 	Super::NativeOnInitialized();
 
 	FInputModeUIOnly InputMode;
-	GetOwningPlayer()->SetInputMode(InputMode);	// ½öÔÊĞíÓÃ»§½çÃæÏìÓ¦ÓÃ»§ÊäÈë
-	GetOwningPlayer()->SetShowMouseCursor(true);// ÏÔÊ¾Êó±ê¹â±ê
+	GetOwningPlayer()->SetInputMode(InputMode);	// ä»…å…è®¸ç”¨æˆ·ç•Œé¢å“åº”ç”¨æˆ·è¾“å…¥
+	GetOwningPlayer()->SetShowMouseCursor(true);// æ˜¾ç¤ºé¼ æ ‡å…‰æ ‡
 
 
 	Button_Host->OnClicked.AddDynamic(this, &ThisClass::HostButtonClicked);
@@ -21,11 +21,11 @@ void UMP_LANMenu::NativeOnInitialized()
 
 void UMP_LANMenu::HostButtonClicked()
 {
-	FInputModeGameOnly InputMode;	// ½öÔÊĞíÍæ¼ÒÊäÈë/Íæ¼Ò¿ØÖÆÆ÷ÏìÓ¦ÓÃ»§ÊäÈë
+	FInputModeGameOnly InputMode;	// ä»…å…è®¸ç©å®¶è¾“å…¥/ç©å®¶æ§åˆ¶å™¨å“åº”ç”¨æˆ·è¾“å…¥
 	GetOwningPlayer()->SetInputMode(InputMode);
 	GetOwningPlayer()->SetShowMouseCursor(false);
 
-	// Í¨¹ı¼àÌı·şÎñÆ÷Ä£Ê½´ò¿ªĞÂ¹Ø¿¨
+	// é€šè¿‡ç›‘å¬æœåŠ¡å™¨æ¨¡å¼æ‰“å¼€æ–°å…³å¡
 	UGameplayStatics::OpenLevelBySoftObjectPtr(this, HostingLevel, true, TEXT("listen"));
 }
 

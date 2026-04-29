@@ -27,7 +27,7 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> Button_Join;
 
-	// 通过 SoftObject 软引用，可以指定任意关卡
+	// 閫氳繃 SoftObject 杞紩鐢紝鍙互鎸囧畾浠绘剰鍏冲崱
 	UPROPERTY(EditDefaultsOnly)
 	TSoftObjectPtr<UWorld> HostingLevel;
 
