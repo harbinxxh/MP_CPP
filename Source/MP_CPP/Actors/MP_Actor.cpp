@@ -20,6 +20,9 @@ void AMP_Actor::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	const bool bAuth = HasAuthority();
+	const ENetRole LocalRole = GetLocalRole();
+	
 }
 
 // Called every frame
