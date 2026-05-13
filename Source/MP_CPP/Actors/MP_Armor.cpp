@@ -3,10 +3,8 @@
 
 #include "MP_Armor.h"
 
-#include "ShaderPrintParameters.h"
 #include "Components/SphereComponent.h"
-#include "EnvironmentQuery/EnvQueryTypes.h"
-#include "GameFramework/Character.h"
+#include "Interaction/MP_Player.h"
 
 
 // Sets default values
@@ -47,16 +45,24 @@ void AMP_Armor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+/** 现在 Armor Actor 不再依赖玩家角色 Character, 而是依赖更抽象的玩家接口。*/ 
 void AMP_Armor::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
 	
-	ACharacter* OverlappedCharacter = Cast<ACharacter>(OtherActor);
+	// 只在服务器上运行
+	if (!OtherActor->HasAuthority()) return;
 	
-	if (HasAuthority() && IsValid(OverlappedCharacter))
+	// 检查 OtherActor 对象是否实现接口
+	if (OtherActor->Implements<UMP_Player>())
 	{
-		SphereMesh->AttachToComponent(OverlappedCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "S_Head");
-		BootMesh_L->AttachToComponent(OverlappedCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "S_Foot_L");
-		BootMesh_R->AttachToComponent(OverlappedCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, "S_Foot_R");
+		// 调用接口
+		USkeletalMeshComponent* Mesh = IMP_Player::Execute_GetSkeletalMesh(OtherActor);
+		// 骨骼绑定
+		SphereMesh->AttachToComponent(Mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, "S_Head");
+		BootMesh_L->AttachToComponent(Mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, "S_Foot_L");
+		BootMesh_R->AttachToComponent(Mesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, "S_Foot_R");
+		
+		IMP_Player::Execute_GrantArmor(OtherActor, ArmorValue);
 	}
 }

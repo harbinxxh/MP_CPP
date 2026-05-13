@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Interaction/MP_Player.h"
 #include "Logging/LogMacros.h"
 #include "MP_CPPCharacter.generated.h"
 
@@ -19,7 +20,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
  *  Implements a controllable orbiting camera
  */
 UCLASS(abstract)
-class AMP_CPPCharacter : public ACharacter
+class AMP_CPPCharacter : public ACharacter, public IMP_Player
 {
 	GENERATED_BODY()
 
@@ -53,6 +54,10 @@ public:
 
 	/** Constructor */
 	AMP_CPPCharacter();	
+	
+	/** IMP_Player Interface */
+	virtual USkeletalMeshComponent* GetSkeletalMesh_Implementation() const override;
+	virtual void GrantArmor_Implementation(float ArmorAmount) override;
 
 protected:
 
@@ -92,5 +97,22 @@ public:
 
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	
+	//////////////////////// Crash Course ////////////////////////
+	/** 如何设置复制变量 */
+public:
+	// 1、Override GetlifetimeReplicatedProps 此函数是注册需要复制变量的函数
+	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+	
+private:
+	// 2、Add the UPROPERTY macro with zhe Replicated specifier
+	UPROPERTY(Replicated)
+	float Armor;
+	
+	/** General Input Action */
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* GeneralAction;
+	
+	void OnGeneralInput();
 };
 
