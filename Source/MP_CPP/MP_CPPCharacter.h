@@ -58,6 +58,7 @@ public:
 	/** IMP_Player Interface */
 	virtual USkeletalMeshComponent* GetSkeletalMesh_Implementation() const override;
 	virtual void GrantArmor_Implementation(float ArmorAmount) override;
+	virtual void IncrementPickupCount_Implementation() override;
 
 protected:
 
@@ -106,13 +107,22 @@ public:
 	
 private:
 	// 2、Add the UPROPERTY macro with zhe Replicated specifier
-	UPROPERTY(Replicated)
+	UPROPERTY(ReplicatedUsing=OnRep_Armor)
 	float Armor;
+	
+	UPROPERTY(ReplicatedUsing=OnRep_PickupCount)
+	int32 PickupCount;
 	
 	/** General Input Action */
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* GeneralAction;
 	
 	void OnGeneralInput();
+	
+	UFUNCTION()
+	void OnRep_Armor();
+	
+	UFUNCTION()
+	void OnRep_PickupCount(int32 PreviousValue); // 显示前一个变化值
 };
 

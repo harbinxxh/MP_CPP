@@ -28,4 +28,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void GrantArmor(float ArmorAmount);
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void IncrementPickupCount();// 增加拾取计数
 };
