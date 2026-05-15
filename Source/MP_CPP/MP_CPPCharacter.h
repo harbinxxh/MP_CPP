@@ -104,6 +104,8 @@ public:
 public:
 	// 1、Override GetlifetimeReplicatedProps 此函数是注册需要复制变量的函数
 	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+	// 自定义复制函数
+	virtual void PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker) override;
 	
 private:
 	// 2、Add the UPROPERTY macro with zhe Replicated specifier
@@ -124,5 +126,8 @@ private:
 	
 	UFUNCTION()
 	void OnRep_PickupCount(int32 PreviousValue); // 显示前一个变化值
+	
+	// 自定义条件复制：开关变量
+	bool bReplicatePickupCount = false;
 };
 

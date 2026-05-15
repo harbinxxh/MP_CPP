@@ -18,7 +18,8 @@ public class MP_CPP : ModuleRules
 			"StateTreeModule",
 			"GameplayStateTreeModule",
 			"UMG",
-			"Slate"
+			"Slate",
+			"NetCore"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });

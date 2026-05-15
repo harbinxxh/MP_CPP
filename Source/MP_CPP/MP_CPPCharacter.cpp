@@ -162,17 +162,35 @@ void AMP_CPPCharacter::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
 	// 3、Call DOREPLIFETIME
-	DOREPLIFETIME(ThisClass, Armor);
-	DOREPLIFETIME(ThisClass, PickupCount);
+	// DOREPLIFETIME(ThisClass, Armor);
+	// DOREPLIFETIME(ThisClass, PickupCount);
+	
+	// 条件复制
+	DOREPLIFETIME_CONDITION(ThisClass, Armor, COND_InitialOrOwner);
+	// 自定义条件复制
+	DOREPLIFETIME_CONDITION(ThisClass, PickupCount, COND_Custom);
+}
+
+void AMP_CPPCharacter::PreReplication(IRepChangedPropertyTracker& ChangedPropertyTracker)
+{
+	Super::PreReplication(ChangedPropertyTracker);
+	
+	// 开关变量关联复制变量
+	// 如果 bReplicatePickupCount 的值发生变化，PickupCount 将会改变其复制状态。
+	// 注意 - bReplicatePickupCount 的值仅在服务器端才有意义。
+	DOREPLIFETIME_ACTIVE_OVERRIDE(ThisClass, PickupCount, bReplicatePickupCount);
 }
 
 void AMP_CPPCharacter::OnGeneralInput()
 {
+	// 切换条件复制变量值
+	bReplicatePickupCount = !bReplicatePickupCount;
+	
 	GEngine->AddOnScreenDebugMessage(
 	-1,
 	5.f,
 	FColor::Green,
-	FString::Printf(TEXT("Armor: %f"), Armor)
+	FString::Printf(TEXT("bReplicatePickupCount: %d"), bReplicatePickupCount)
 	);
 }
 
