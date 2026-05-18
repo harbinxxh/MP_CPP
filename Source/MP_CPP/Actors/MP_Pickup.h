@@ -31,4 +31,7 @@ private:
 	
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> SphereCollision;
+	
+	UPROPERTY(VisibleAnywhere)
+	float HealthValue = 100.0f;
 };

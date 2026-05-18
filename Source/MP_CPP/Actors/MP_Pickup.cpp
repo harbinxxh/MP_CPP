@@ -49,7 +49,11 @@ void AMP_Pickup::NotifyActorBeginOverlap(AActor* OtherActor)
 	// 检查 OtherActor 对象是否实现接口
 	if (OtherActor->Implements<UMP_Player>())
 	{
-		IMP_Player::Execute_IncrementPickupCount(OtherActor);
+		// 为角色增加拾取物数量
+		// IMP_Player::Execute_IncrementPickupCount(OtherActor);
+		
+		// 为角色增加健康值
+		IMP_Player::Execute_IncreaseHealth(OtherActor, HealthValue);
 		Destroy();
 	}
 }

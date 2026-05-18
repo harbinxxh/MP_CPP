@@ -8,6 +8,7 @@
 #include "Logging/LogMacros.h"
 #include "MP_CPPCharacter.generated.h"
 
+class UMP_HealthComponent;
 class USpringArmComponent;
 class UCameraComponent;
 class UInputAction;
@@ -129,5 +130,12 @@ private:
 	
 	// 自定义条件复制：开关变量
 	bool bReplicatePickupCount = false;
+	
+	//  为角色添加健康组件
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<UMP_HealthComponent> HealthComponent;
+	
+	// 实现增加健康值接口函数
+	virtual void IncreaseHealth_Implementation(float NewHealthAmount);
 };
 

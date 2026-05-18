@@ -11,6 +11,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "MP_CPP.h"
+#include "ShaderPrintParameters.h"
+#include "Components/MP_HealthComponent.h"
 #include "Net/UnrealNetwork.h"
 
 AMP_CPPCharacter::AMP_CPPCharacter()
@@ -49,6 +51,11 @@ AMP_CPPCharacter::AMP_CPPCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+	
+	HealthComponent = CreateDefaultSubobject<UMP_HealthComponent>("HealthComponent");
+	// 启动组件复制
+	HealthComponent->SetIsReplicated(true);
+	
 }
 
 USkeletalMeshComponent* AMP_CPPCharacter::GetSkeletalMesh_Implementation() const
@@ -220,4 +227,12 @@ void AMP_CPPCharacter::OnRep_PickupCount(int32 PreviousValue)
 	FColor::Red,
 	FString::Printf(TEXT("Pickup Count: %d"), PickupCount)
 	);
+}
+
+void AMP_CPPCharacter::IncreaseHealth_Implementation(float NewHealthAmount)
+{
+	if (IsValid(HealthComponent))
+	{
+		HealthComponent->SetHealth(HealthComponent->GetHealth() + NewHealthAmount);
+	}
 }
