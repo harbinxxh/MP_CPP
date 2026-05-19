@@ -19,10 +19,24 @@ AMP_Actor::AMP_Actor()
 void AMP_Actor::BeginPlay()
 {
 	Super::BeginPlay();
+
+	if (HasAuthority())
+	{
+		Client_PrintActorName();
+	}
+}
+
+void AMP_Actor::Client_PrintActorName_Implementation()
+{
+	FString MessageString = HasAuthority() ? "Server: " : "Client: ";
+	MessageString += GetName();
 	
-	const bool bAuth = HasAuthority();
-	const ENetRole LocalRole = GetLocalRole();
-	
+	GEngine->AddOnScreenDebugMessage(
+	-1,
+	30.f,
+	FColor::Yellow,
+	MessageString
+	);
 }
 
 // Called every frame

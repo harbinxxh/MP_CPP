@@ -12,6 +12,7 @@
 #include "InputActionValue.h"
 #include "MP_CPP.h"
 #include "ShaderPrintParameters.h"
+#include "Actors/MP_Actor.h"
 #include "Components/MP_HealthComponent.h"
 #include "Net/UnrealNetwork.h"
 
@@ -235,4 +236,38 @@ void AMP_CPPCharacter::IncreaseHealth_Implementation(float NewHealthAmount)
 	{
 		HealthComponent->SetHealth(HealthComponent->GetHealth() + NewHealthAmount);
 	}
+}
+
+void AMP_CPPCharacter::OnRep_RPCDelayTimer()
+{
+	// if (HasAuthority())
+	// {
+	// 	Client_PrintMessage("This should run on the owning client.");
+	// }
+
+	if (!HasAuthority()) return;
+	
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = this;
+	GetWorld()->SpawnActor<AMP_Actor>(GetActorLocation(), GetActorRotation(), SpawnParams);
+}
+
+void AMP_CPPCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	GetWorldTimerManager().SetTimer(RPCDelayTimer, this, &AMP_CPPCharacter::OnRep_RPCDelayTimer, 4.0f,false);
+}
+
+void AMP_CPPCharacter::Client_PrintMessage_Implementation(const FString& Message)
+{
+	FString MessageString = HasAuthority() ? "Server: " : "Client: ";
+	MessageString += Message;
+	
+	GEngine->AddOnScreenDebugMessage(
+	-1,
+	30.f,
+	FColor::Yellow,
+	MessageString
+	);
 }

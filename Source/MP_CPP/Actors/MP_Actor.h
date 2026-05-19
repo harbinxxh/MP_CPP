@@ -18,6 +18,10 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	// 客户端执行 RPC
+	UFUNCTION(Client, Reliable)
+	void Client_PrintActorName();
 
 public:
 	// Called every frame

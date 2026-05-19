@@ -137,5 +137,19 @@ private:
 	
 	// 实现增加健康值接口函数
 	virtual void IncreaseHealth_Implementation(float NewHealthAmount);
+	
+	// Remote Procedure Call (RPC) - Client, Server, and NetMulticast
+	
+	UFUNCTION(Client, Reliable)
+	void Client_PrintMessage(const FString& Message);
+	
+	// 定时器
+	FTimerHandle RPCDelayTimer;
+	
+	void OnRep_RPCDelayTimer();
+	
+protected:
+	virtual void BeginPlay() override;
+	
 };
 
