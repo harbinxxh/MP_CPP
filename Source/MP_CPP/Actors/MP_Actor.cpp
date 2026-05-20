@@ -20,10 +20,10 @@ void AMP_Actor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (HasAuthority())
-	{
-		Client_PrintActorName();
-	}
+	// if (HasAuthority())
+	// {
+	// 	Client_PrintActorName();
+	// }
 }
 
 void AMP_Actor::Client_PrintActorName_Implementation()
@@ -37,6 +37,26 @@ void AMP_Actor::Client_PrintActorName_Implementation()
 	FColor::Yellow,
 	MessageString
 	);
+}
+
+void AMP_Actor::Server_PrintActorName_Implementation()
+{
+	FString MessageString = HasAuthority() ? "Server: " : "Client: ";
+	MessageString += GetName();
+	
+	GEngine->AddOnScreenDebugMessage(
+	-1,
+	30.f,
+	FColor::Purple,
+	MessageString
+	);
+}
+
+void AMP_Actor::OnRep_Owner()
+{
+	Super::OnRep_Owner();
+	
+	Server_PrintActorName();
 }
 
 // Called every frame

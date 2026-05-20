@@ -192,14 +192,16 @@ void AMP_CPPCharacter::PreReplication(IRepChangedPropertyTracker& ChangedPropert
 void AMP_CPPCharacter::OnGeneralInput()
 {
 	// 切换条件复制变量值
-	bReplicatePickupCount = !bReplicatePickupCount;
+	// bReplicatePickupCount = !bReplicatePickupCount;
+	//
+	// GEngine->AddOnScreenDebugMessage(
+	// -1,
+	// 5.f,
+	// FColor::Green,
+	// FString::Printf(TEXT("bReplicatePickupCount: %d"), bReplicatePickupCount)
+	// );
 	
-	GEngine->AddOnScreenDebugMessage(
-	-1,
-	5.f,
-	FColor::Green,
-	FString::Printf(TEXT("bReplicatePickupCount: %d"), bReplicatePickupCount)
-	);
+	Server_PrintMessage("Please run this on the server");
 }
 
 void AMP_CPPCharacter::OnRep_Armor()
@@ -250,6 +252,19 @@ void AMP_CPPCharacter::OnRep_RPCDelayTimer()
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = this;
 	GetWorld()->SpawnActor<AMP_Actor>(GetActorLocation(), GetActorRotation(), SpawnParams);
+}
+
+void AMP_CPPCharacter::Server_PrintMessage_Implementation(const FString& Message)
+{
+	FString MessageString = HasAuthority() ? "Server: " : "Client: ";
+	MessageString += Message;
+	
+	GEngine->AddOnScreenDebugMessage(
+	-1,
+	30.f,
+	FColor::Purple,
+	MessageString
+	);
 }
 
 void AMP_CPPCharacter::BeginPlay()

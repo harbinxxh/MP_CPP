@@ -140,6 +140,7 @@ private:
 	
 	// Remote Procedure Call (RPC) - Client, Server, and NetMulticast
 	
+	// 服务器调用，客户端执行
 	UFUNCTION(Client, Reliable)
 	void Client_PrintMessage(const FString& Message);
 	
@@ -147,6 +148,10 @@ private:
 	FTimerHandle RPCDelayTimer;
 	
 	void OnRep_RPCDelayTimer();
+	
+	// 客户端调用，服务器执行
+	UFUNCTION(Server, Reliable)
+	void Server_PrintMessage(const FString& Message);
 	
 protected:
 	virtual void BeginPlay() override;
