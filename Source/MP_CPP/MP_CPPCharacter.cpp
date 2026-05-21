@@ -249,9 +249,11 @@ void AMP_CPPCharacter::OnRep_RPCDelayTimer()
 
 	if (!HasAuthority()) return;
 	
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = this;
-	GetWorld()->SpawnActor<AMP_Actor>(GetActorLocation(), GetActorRotation(), SpawnParams);
+	// FActorSpawnParameters SpawnParams;
+	// SpawnParams.Owner = this;
+	// GetWorld()->SpawnActor<AMP_Actor>(GetActorLocation(), GetActorRotation(), SpawnParams);
+	
+	Multicast_PrintMessage("Print this on the server and all relevant clients");
 }
 
 void AMP_CPPCharacter::Server_PrintMessage_Implementation(const FString& Message)
@@ -263,6 +265,19 @@ void AMP_CPPCharacter::Server_PrintMessage_Implementation(const FString& Message
 	-1,
 	30.f,
 	FColor::Purple,
+	MessageString
+	);
+}
+
+void AMP_CPPCharacter::Multicast_PrintMessage_Implementation(const FString& Message)
+{
+	FString MessageString = HasAuthority() ? "Server: " : "Client: ";
+	MessageString += Message;
+	
+	GEngine->AddOnScreenDebugMessage(
+	-1,
+	30.f,
+	FColor::Cyan,
 	MessageString
 	);
 }

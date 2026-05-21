@@ -153,6 +153,11 @@ private:
 	UFUNCTION(Server, Reliable)
 	void Server_PrintMessage(const FString& Message);
 	
+	// 网络多播：
+	// 在服务器上调用，服务器和客户端同时执行
+	UFUNCTION(NetMulticast, Unreliable)
+	void Multicast_PrintMessage(const FString& Message);
+	
 protected:
 	virtual void BeginPlay() override;
 	
