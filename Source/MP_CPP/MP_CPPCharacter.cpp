@@ -201,7 +201,8 @@ void AMP_CPPCharacter::OnGeneralInput()
 	// FString::Printf(TEXT("bReplicatePickupCount: %d"), bReplicatePickupCount)
 	// );
 	
-	Server_PrintMessage("Please run this on the server");
+	// Server_PrintMessage("Please run this on the server");
+	Server_PrintMessage(FString());
 }
 
 void AMP_CPPCharacter::OnRep_Armor()
@@ -254,6 +255,13 @@ void AMP_CPPCharacter::OnRep_RPCDelayTimer()
 	// GetWorld()->SpawnActor<AMP_Actor>(GetActorLocation(), GetActorRotation(), SpawnParams);
 	
 	Multicast_PrintMessage("Print this on the server and all relevant clients");
+}
+
+bool AMP_CPPCharacter::Server_PrintMessage_Validate(const FString& Message)
+{
+	// 只要客户端返回消息，被判断为假
+	// 服务器就会踢掉客户端连接
+	return !Message.IsEmpty();
 }
 
 void AMP_CPPCharacter::Server_PrintMessage_Implementation(const FString& Message)

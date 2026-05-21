@@ -150,13 +150,21 @@ private:
 	void OnRep_RPCDelayTimer();
 	
 	// 客户端调用，服务器执行
-	UFUNCTION(Server, Reliable)
+	// UFUNCTION(Server, Reliable)
+	// void Server_PrintMessage(const FString& Message);
+	
+	// RPC 验证函数
+	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_PrintMessage(const FString& Message);
 	
 	// 网络多播：
 	// 在服务器上调用，服务器和客户端同时执行
 	UFUNCTION(NetMulticast, Unreliable)
 	void Multicast_PrintMessage(const FString& Message);
+	
+	// searches memory addresses, sees value 120 -> 10000
+	// RPC Validation RPC 验证
+	
 	
 protected:
 	virtual void BeginPlay() override;
