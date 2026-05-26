@@ -14,6 +14,8 @@
 #include "ShaderPrintParameters.h"
 #include "Actors/MP_Actor.h"
 #include "Components/MP_HealthComponent.h"
+#include "Game/MP_GameState.h"
+#include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
 
 AMP_CPPCharacter::AMP_CPPCharacter()
@@ -201,8 +203,28 @@ void AMP_CPPCharacter::OnGeneralInput()
 	// FString::Printf(TEXT("bReplicatePickupCount: %d"), bReplicatePickupCount)
 	// );
 	
+	
 	// Server_PrintMessage("Please run this on the server");
-	Server_PrintMessage(FString());
+	// Server_PrintMessage(FString());
+	
+	
+	// 获取游戏状态
+	AMP_GameState* MP_GameState = Cast<AMP_GameState>(UGameplayStatics::GetGameState(this));
+	APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	if (IsValid(MP_GameState) && IsValid(PlayerController))
+	{
+		FString TeamMessage = "Team";
+		if (MP_GameState->IsTeamOne(PlayerController))
+		{
+			TeamMessage += "One";
+		}
+		else
+		{
+			TeamMessage += "Two";
+		}
+		
+		GEngine->AddOnScreenDebugMessage(-1,60.f,FColor::Cyan,TeamMessage);
+	}
 }
 
 void AMP_CPPCharacter::OnRep_Armor()

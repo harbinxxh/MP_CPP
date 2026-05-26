@@ -17,6 +17,8 @@ class MP_CPP_API AMP_GameMode : public AGameMode
 public:
 	AMP_GameMode();
 	virtual void StartMatch() override;
+	// 玩家登录后，调用此函数
+	virtual void PostLogin(APlayerController* NewPlayer) override;
 	
 protected:
 	virtual void BeginPlay() override;
