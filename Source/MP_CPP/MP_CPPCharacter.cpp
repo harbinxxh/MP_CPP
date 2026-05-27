@@ -17,6 +17,7 @@
 #include "Game/MP_GameState.h"
 #include "Kismet/GameplayStatics.h"
 #include "Net/UnrealNetwork.h"
+#include "Player/MP_PlayerState.h"
 
 AMP_CPPCharacter::AMP_CPPCharacter()
 {
@@ -209,22 +210,33 @@ void AMP_CPPCharacter::OnGeneralInput()
 	
 	
 	// 获取游戏状态
-	AMP_GameState* MP_GameState = Cast<AMP_GameState>(UGameplayStatics::GetGameState(this));
-	APlayerController* PlayerController = Cast<APlayerController>(GetController());
-	if (IsValid(MP_GameState) && IsValid(PlayerController))
-	{
-		FString TeamMessage = "Team";
-		if (MP_GameState->IsTeamOne(PlayerController))
-		{
-			TeamMessage += "One";
-		}
-		else
-		{
-			TeamMessage += "Two";
-		}
-		
-		GEngine->AddOnScreenDebugMessage(-1,60.f,FColor::Cyan,TeamMessage);
-	}
+	// AMP_GameState* MP_GameState = Cast<AMP_GameState>(UGameplayStatics::GetGameState(this));
+	// APlayerController* PlayerController = Cast<APlayerController>(GetController());
+	// if (IsValid(MP_GameState) && IsValid(PlayerController))
+	// {
+	// 	FString TeamMessage = "Team";
+	// 	if (MP_GameState->IsTeamOne(PlayerController))
+	// 	{
+	// 		TeamMessage += "One";
+	// 	}
+	// 	else
+	// 	{
+	// 		TeamMessage += "Two";
+	// 	}
+	// 	
+	// 	GEngine->AddOnScreenDebugMessage(-1,60.f,FColor::Cyan,TeamMessage);
+	// }
+	
+	
+	// 获取玩家状态
+	AMP_PlayerState* MP_PlayerState = Cast<AMP_PlayerState>(GetPlayerState());
+	if (!IsValid(MP_PlayerState)) return;
+	
+	GEngine->AddOnScreenDebugMessage(
+	-1,
+	35.f,
+	FColor::Blue,
+	FString::Printf(TEXT("NumPickups: %d"), MP_PlayerState->GetNumPickups()));
 }
 
 void AMP_CPPCharacter::OnRep_Armor()
