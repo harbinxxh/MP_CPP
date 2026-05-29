@@ -8,6 +8,7 @@
 
 class UInputMappingContext;
 class UUserWidget;
+class UMP_PickupCountWidget;
 
 /**
  *  Basic PlayerController class for a third person game
@@ -40,5 +41,18 @@ protected:
 
 	/** Input mapping context setup */
 	virtual void SetupInputComponent() override;
+	virtual void OnRep_PlayerState() override;
 
+private:
+	
+	// 需要实例化的类型
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UMP_PickupCountWidget> PickupCountWidgetClass;
+	
+	// 创建后的实例化对象
+	UPROPERTY()
+	TObjectPtr<UMP_PickupCountWidget> PickupCountWidget;
+	
+	UFUNCTION()
+	void OnPickupCountChanged(int Count);
 };
