@@ -17,7 +17,7 @@ void AMP_CPPPlayerController::BeginPlay()
 	// 若不是本地玩家控制器就返回
 	if (!IsLocalController()) return;
 	
-	// 添加 拾取物 Widget 控件
+	// 通过控件类，场景拾取物 Widget 控件实例对象
 	PickupCountWidget = CreateWidget<UMP_PickupCountWidget>(this, PickupCountWidgetClass);
 	if (IsValid(PickupCountWidget))
 	{

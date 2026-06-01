@@ -41,6 +41,8 @@ protected:
 
 	/** Input mapping context setup */
 	virtual void SetupInputComponent() override;
+	
+	// 包含与此控制器使用玩家相关的复制信息的玩家状态（仅存在于玩家，不适用于NPC）。
 	virtual void OnRep_PlayerState() override;
 
 private:
