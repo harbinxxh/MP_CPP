@@ -10,6 +10,7 @@ AMP_GameMode::AMP_GameMode()
 	// 游戏是否应在第一位玩家登录时立即开始。此设置会影响 ReadyToStartMatch 的默认行为。
 	bDelayedStart = true;
 	MatchStartDelay = 5.f;
+	bUseSeamlessTravel = true;	// 开启无缝切换地图属性
 }
 
 void AMP_GameMode::StartMatch()

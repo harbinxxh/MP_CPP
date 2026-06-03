@@ -101,6 +101,9 @@ void AMP_CPPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		
 		// General Action for testing
 		EnhancedInputComponent->BindAction(GeneralAction, ETriggerEvent::Started, this, &AMP_CPPCharacter::OnGeneralInput);
+		
+		// 无缝地图切换动作
+		EnhancedInputComponent->BindAction(ServerTravelAction, ETriggerEvent::Started, this, &ThisClass::TravelToDestinationMap);
 	}
 	else
 	{
@@ -124,6 +127,15 @@ void AMP_CPPCharacter::Look(const FInputActionValue& Value)
 
 	// route the input
 	DoLook(LookAxisVector.X, LookAxisVector.Y);
+}
+
+void AMP_CPPCharacter::TravelToDestinationMap()
+{
+	// 无缝地图切换动作，只能在服务器上运行
+	if (HasAuthority())
+	{
+		GetWorld()->ServerTravel(TEXT("DestinationMap"));
+	}
 }
 
 void AMP_CPPCharacter::DoMove(float Right, float Forward)

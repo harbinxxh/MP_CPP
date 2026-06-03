@@ -50,6 +50,11 @@ protected:
 	/** Mouse Look Input Action */
 	UPROPERTY(EditAnywhere, Category="Input")
 	UInputAction* MouseLookAction;
+	
+	// 无缝地图切换动作
+	/** Server Travel Input Action */
+	UPROPERTY(EditAnywhere, Category="Input")
+	UInputAction* ServerTravelAction;
 
 public:
 
@@ -73,6 +78,9 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
+	
+	// 无缝地图切换动作
+	void TravelToDestinationMap();
 
 public:
 
