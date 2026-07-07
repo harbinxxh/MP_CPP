@@ -19,6 +19,7 @@ public:
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	// 当此角色与其他角色重叠时触发的事件，例如玩家走入触发器
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 	
 protected:
@@ -28,16 +29,16 @@ protected:
 private:
 	
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UStaticMeshComponent> SphereMesh;
+	TObjectPtr<UStaticMeshComponent> SphereMesh; // 静态网格组件
 	
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UStaticMeshComponent> BootMesh_L;
+	TObjectPtr<UStaticMeshComponent> BootMesh_L; // 静态网格组件
 	
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<UStaticMeshComponent> BootMesh_R;
+	TObjectPtr<UStaticMeshComponent> BootMesh_R; // 静态网格组件
 	
 	UPROPERTY(VisibleAnywhere)
-	TObjectPtr<USphereComponent> SphereCollision;
+	TObjectPtr<USphereComponent> SphereCollision; // 球形碰撞提组件
 	
 	UPROPERTY(EditAnywhere)
 	float ArmorValue = 100.0f; // 护甲值
