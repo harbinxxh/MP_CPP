@@ -7,12 +7,15 @@
 
 AMP_GameMode::AMP_GameMode()
 {
-	// 游戏是否应在第一位玩家登录时立即开始。此设置会影响 ReadyToStartMatch 的默认行为。
+	// 游戏是否应在第一位玩家登录时立即开始。
+	// 此设置会影响 ReadyToStartMatch 的默认行为。
 	bDelayedStart = true;
 	MatchStartDelay = 5.f;
 	bUseSeamlessTravel = true;	// 开启无缝切换地图属性
 }
 
+// 从“等待启动”状态转变为“进行中”状态。
+// 你可以手动调用此方法，当 ReadyToStartMatch() 函数返回 true 时,系统也会自动调用此操作。
 void AMP_GameMode::StartMatch()
 {
 	Super::StartMatch();
@@ -39,10 +42,15 @@ void AMP_GameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	GetWorldTimerManager().SetTimer(MatchStartTimer, this, &AMP_GameMode::StartDelayFinished, MatchStartDelay,false);
+	// 创建定时器
+	// 5s后，调用延迟函数 StartDelayFinished()
+	GetWorldTimerManager().SetTimer(MatchStartTimer,
+		this, &AMP_GameMode::StartDelayFinished, MatchStartDelay,false);
 }
 
+// 定时器回调函数
 void AMP_GameMode::StartDelayFinished()
 {
+	// 启动游戏比赛
 	StartMatch();
 }
