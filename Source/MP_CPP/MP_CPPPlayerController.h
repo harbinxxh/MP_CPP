@@ -42,7 +42,8 @@ protected:
 	/** Input mapping context setup */
 	virtual void SetupInputComponent() override;
 	
-	// 包含与此控制器使用玩家相关的复制信息的玩家状态（仅存在于玩家，不适用于NPC）。
+	// OnRep_PlayerState 函数主要在客户端自动触发
+	// 当服务器完成 PlayerState 的创建、更新或同步后，就在所有客户端上调用该函数，作为数据已经准备好的安全信号
 	virtual void OnRep_PlayerState() override;
 
 private:

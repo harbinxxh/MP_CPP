@@ -27,6 +27,7 @@ public:
 	FPickupCountChanged OnPickupCountChanged;
 	
 private:
+	// 拾取数复制变量，并设置复制变量通知函数 OnRep_NumPickups()
 	UPROPERTY(ReplicatedUsing = OnRep_NumPickups)
 	int32 NumPickups;
 	

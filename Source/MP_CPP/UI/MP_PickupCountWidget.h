@@ -17,10 +17,12 @@ class MP_CPP_API UMP_PickupCountWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	// 设置拾取数量的函数
 	void SetPickupCount(int32 Count) const;
 	
 private:
 	
+	// 属性 meta = (BindWidget) ：表示这个 C++ 变量就会与我在 UMG 中添加的文本控件相连接。
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> Text_PickupCount;
 };
